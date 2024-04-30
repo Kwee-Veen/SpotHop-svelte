@@ -1,0 +1,48 @@
+<section class="content box has-background-link-light">
+    <label class="label has-text-centered is-large has-text-link-dark is-underlined">Analytics</label>
+    <div class="box">
+        <table class="table is-hoverable">
+            <thead>
+                <tr>
+                    <td>
+                        <p class="text has-text-weight-bold">{{user.email}}'s Spots: {{analytics.User}}</p>
+                    </td>
+                    <td>
+                        <p class="text has-text-weight-bold">Total Spots: {{analytics.Global}}</p>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Site Spots: {{analytics.Site}}
+                    </td>
+                    <td>
+                        Locale Spots: {{analytics.Locale}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Activity Spots: {{analytics.Activity}}
+                    </td>
+                    <td>
+                        Scenery Spots: {{analytics.Scenery}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Structure Spots: {{analytics.Structure}}
+                    </td>
+                    <td>
+                        Shopping Spots: {{analytics.Shopping}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Uncategorised Spots: {{analytics.Uncategorised}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

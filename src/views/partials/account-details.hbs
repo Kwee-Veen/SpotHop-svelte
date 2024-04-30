@@ -1,0 +1,86 @@
+<section class="content box">
+  <div class="columns is-centered">
+    <form action="/modifyaccount/{{_id}}" method="POST">
+      <div class="box has-background-link-light">
+        <h2 class="subtitle has-text-centered">
+          Current Details
+        </h2>
+        <div class="columns is-multiline">
+          <div class="column is-3">
+            First Name:
+          </div>
+          <div class="column is-3">
+            {{firstName}}
+          </div>
+          <div class="column is-3">
+            Last Name:
+          </div>
+          <div class="column is-3">
+            {{lastName}}
+          </div>
+          <div class="column is-3">
+            Email:
+          </div>
+          <div class="column is-3">
+            {{email}}
+          </div>
+          <div class="column is-3">
+            Password:
+          </div>
+          <div class="column is-3">
+            {{password}}
+          </div>
+        </div>
+      </div>
+      <div class="box has-background-warning-light">    
+        <h2 class="subtitle has-text-centered">
+          Modify Details
+        </h2>
+        <div class="field is-horizontal field-body has-text-centered">
+          <div class="field">
+            <label class="label">First Name:</label>
+            <p class="control is-expanded">
+              <input class="input is-rounded" type="text" placeholder="John" name="firstName" required>
+            </p>
+          </div>
+          <div class="field">
+            <label class="label">Last Name:</label>
+            <p class="control">
+              <input class="input is-rounded" type="text" placeholder="Smith" name="lastName" required>
+            </p>
+          </div>
+        </div>
+        <div class="field is-horizontal field-body has-text-centered">
+          <div class="field">
+            <label class="label">Email:</label>
+            <input class="input is-rounded" type="text" placeholder="test@test.com" name="email" required>
+          </div>
+          <div class="field">
+            <label class="label">Password:</label>
+            <input class="input is-rounded" type="password" placeholder="test" name="password" required>
+          </div>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-narrow">
+            <button class="button is-link is-warning">Modify Account</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="columns is-centered">
+    <div class="column is-narrow">
+      <div class="box has-background-link-dark">    
+        <h2 class="subtitle has-text-centered has-text-white">
+          Delete Account
+        </h2>
+        <p class="text has-text-white has-text-centered is-italic">Warning: permanent</p>
+        <form class = "form has-text-centered" action="/deleteaccount/{{_id}}" method="POST">
+          <div class="column is-narrow">
+            <button class="button is-link is-danger">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

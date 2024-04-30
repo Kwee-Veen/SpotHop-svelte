@@ -1,0 +1,64 @@
+<section class="content box has-background-info-light">
+  <table class="table is-fullwidth has-background-info-light">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Coordinates</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+            {{spot.name}}
+          </td>
+          <td>
+            {{spot.category}}
+          </td>
+          <td>
+            {{spot.latitude}}, {{spot.longitude}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Description:</b> {{spot.description}}
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <form action="/spot/{{spot._id}}/editspot" method="POST">
+    <label class="label">Edit Spot Details:</label>
+    <div class="field is-grouped-horizontal">
+      <div class="field-body">
+        <div class="field is-narrow">
+          <input class="input is-success" type="text" placeholder="Enter name" name="name"/>
+        </div>
+        <div class="control">
+          <div class="select">
+            <select class="input is-link is-rounded" name="category" placeholder = "Choose Category">
+              <option value = "">Choose Category</option>
+              <option value="Site">Site</option>
+              <option value="Locale">Locale</option>
+              <option value="Activity">Activity</option>
+              <option value="Scenery">Scenery</option>
+              <option value="Structure">Structure</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Uncategorised">Uncategorised</option>
+            </select>
+          </div>
+        </div>
+        <div class="field is-narrow"></div>
+        <div class="field is-narrow">
+          <input class="input is-warning is-rounded" type="number" min="-90" max="90" step="0.00001" placeholder="Latitude" name="latitude"/>
+        </div>
+        <div class="field is-narrow">
+          <input class="input is-warning is-rounded" type="number" min="-180" max="180" step="0.00001" placeholder="Longitude" name="longitude"/>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <input class="input is-success" type="text" placeholder="Enter description" name="description"/>
+    </div>
+    <button class="button is-warning">Edit Spot</button>
+  </form>
+</section>

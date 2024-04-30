@@ -1,0 +1,10 @@
+{{#if errors}}
+<div class="box content">
+    <p>There was an error</p>
+    <ul>
+        {{#each errors}}
+        <li>{{message}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}
