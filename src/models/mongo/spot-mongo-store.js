@@ -139,7 +139,7 @@ export const spotMongoStore = {
         }
     },
     async deleteSpot(id) {
-        if (id) {
+        if (id !== undefined) {
             try {
                 await SpotMongoose.deleteOne({ _id: id });
                 return null;

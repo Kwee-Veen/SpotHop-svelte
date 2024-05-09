@@ -1,8 +1,7 @@
 import Boom from "@hapi/boom";
 import { Request, ResponseToolkit } from "@hapi/hapi";
 import { db } from "../models/db.js";
-import { IdSpec, SpotSpec, SpotSpecPlus, SpotEdit, SpotArray } from "../models/joi-schemas.js";
-import { validationError } from "./logger.js";
+import { Spot } from "../types/spot-types.js";
 
 export const spotApi = {
     find: {
@@ -12,15 +11,11 @@ export const spotApi = {
         handler: async function (request: Request, h: ResponseToolkit) {
           try {
             const spots = await db.spotStore.getAllSpots();
-            return spots;
+            return h.response(spots).code(200);;
           } catch (err) {
             return Boom.serverUnavailable("Database Error");
           }
         },
-        tags: ["api"],
-        description: "Get all spots",
-        notes: "Returns details of all spots",
-        response: { schema: SpotArray, failAction: validationError },
       },
     
       create: {
@@ -28,23 +23,26 @@ export const spotApi = {
           strategy: "jwt",
         },
         handler: async function (request: Request, h: ResponseToolkit) {
-          try {
-            const spot = request.payload;
-            const newSpot = await db.spotStore.addSpot(spot);
-            if (newSpot) {
-              return h.response(newSpot).code(201);
-            }
-            return Boom.badImplementation("error creating spot");
-          } catch (err) {
-            return Boom.serverUnavailable("Database Error");
+          const spotPayload = request.payload as Spot;
+          console.log("request auth credentials _id: " + request.auth.credentials._id);
+          const newSpot = {
+            name: spotPayload.name,
+            category: spotPayload.category,
+            description: spotPayload.description,
+            latitude: spotPayload.latitude,
+            longitude: spotPayload.longitude,
+            userid:  request.auth.credentials._id,
+          };
+
+          const spot = (await db.spotStore.addSpot(newSpot)) as Spot;
+          console.log(spot);
+          if (spot !== null) {
+            return h.response(spot).code(200);
           }
+          return Boom.badImplementation("error creating candidate");
         },
-        tags: ["api"],
-        description: "Create a spot",
-        notes: "Creates then returns the newly created spot",
-        validate: { payload: SpotSpec, failAction: validationError },
-        response: { schema: SpotSpecPlus, failAction: validationError },
       },
+
 
       deleteOne: {
         auth: {
@@ -52,7 +50,8 @@ export const spotApi = {
         },
         handler: async function (request: Request, h: ResponseToolkit) {
           try {
-            const spot = await db.spotStore.getSpotById(request.params.id);
+            const paramPayload = request.params as any;
+            const spot = await db.spotStore.getSpotById(paramPayload.id);
             if (!spot) {
               return Boom.notFound("No Spot with this id");
             }
@@ -62,32 +61,24 @@ export const spotApi = {
             return Boom.serverUnavailable("No Spot with this id");
           }
         },
-        tags: ["api"],
-        description: "Delete one spot",
-        notes: "Delete one specific spot",
-        validate: { params: { id: IdSpec }, failAction: validationError },
       },
     
       findOne: {
         auth: {
           strategy: "jwt",
         },
-        async handler(request: Request) {
+        async handler(request: Request, h: ResponseToolkit) {
           try {
-            const spot = await db.spotStore.getSpotById(request.params.id);
+            const paramPayload = request.params as any;
+            const spot = await db.spotStore.getSpotById(paramPayload.id);
             if (!spot) {
               return Boom.notFound("No Spot with this id");
             }
-            return spot;
+            return h.response(spot).code(200);
           } catch (err) {
             return Boom.serverUnavailable("No Spot with this id");
           }
         },
-        tags: ["api"],
-        description: "Get one spot",
-        notes: "Returns one specific spot",
-        validate: { params: { id: IdSpec }, failAction: validationError },
-        response: { schema: SpotSpecPlus, failAction: validationError },
       },
     
       deleteAll: {
@@ -102,8 +93,5 @@ export const spotApi = {
             return Boom.serverUnavailable("Database Error");
           }
         },
-        tags: ["api"],
-        description: "Delete all spots",
-        notes: "Deletes all spots from SpotHop",
       },
 };

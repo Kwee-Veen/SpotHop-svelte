@@ -7,6 +7,7 @@ export const seedData = {
             email: "test@user.com",
             password: "secret",
             admin: true,
+            _id: "663d2c2eba1b43a21226630c",
         },
     },
     spots: {
@@ -17,6 +18,7 @@ export const seedData = {
             category: "Uncategorised",
             latitude: 55,
             longitude: -55,
+            userid: "663d2c2eba1b43a21226630c",
         },
         initialSpot2: {
             name: "A second initial spot",
@@ -24,6 +26,8 @@ export const seedData = {
             category: "Scenery",
             latitude: 4,
             longitude: -4,
+            userid: "663d2c2eba1b43a21226630c",
+            img: 'http://res.cloudinary.com/dx2zbn7jb/image/upload/v1715286036/kfdzvb0slisf587orcbl.png',
         },
     },
 };

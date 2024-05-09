@@ -5,6 +5,7 @@ export const dashboardController = {
         handler: async function (request, h) {
             const loggedInUser = request.auth.credentials;
             const spots = await db.spotStore.getUserSpots(loggedInUser._id);
+            console.log(spots);
             const analytics = await db.spotStore.getSpotAnalytics(loggedInUser);
             const viewData = {
                 title: "SpotHop Dashboard",
@@ -69,7 +70,8 @@ export const dashboardController = {
     },
     deleteSpot: {
         handler: async function (request, h) {
-            const spot = await db.spotStore.getSpotById(request.params.id);
+            const paramPayload = request.params;
+            const spot = await db.spotStore.getSpotById(paramPayload.id);
             console.log("Spot deleted: " + JSON.stringify(spot.name));
             await db.spotStore.deleteSpot(spot._id);
             return h.redirect("/dashboard");

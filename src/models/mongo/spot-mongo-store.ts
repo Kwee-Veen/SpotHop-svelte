@@ -8,7 +8,7 @@ export const spotMongoStore = {
         return spots;
     },
 
-    async addSpot(spot: Spot, userid: string) {
+    async addSpot(spot: Spot, userid?: string) {
         if (spot) {
             try {
                 if (!spot.userid) {
@@ -138,8 +138,8 @@ export const spotMongoStore = {
         }
     },
 
-    async deleteSpot(id: string) {
-        if (id) {
+    async deleteSpot(id: string | undefined) {
+        if (id !== undefined) {
             try {
                 await SpotMongoose.deleteOne({ _id: id });
                 return null;

@@ -14,6 +14,8 @@ export type User = {
     category?: string;
     latitude?: number;
     longitude?: number;
-    _id: string;
-    userid: User | string;
+    _id?: string;
+    userid?: User | string;
   };
+
+
