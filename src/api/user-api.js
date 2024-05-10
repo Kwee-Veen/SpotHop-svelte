@@ -35,16 +35,31 @@ export const userApi = {
     },
     create: {
         auth: false,
+        // validate: {
+        //   payload: UserSpec,
+        //   options: { abortEarly: false },
+        //   failAction: function (request: Request, h: ResponseToolkit, error: any) {
+        //     return h.view("signup-view", { title: "Sign up error", errors: error.details }).takeover().code(400);
+        //   },
+        // },
         handler: async function (request, h) {
             try {
-                console.log("HERE");
-                const userPayload = request.payload;
-                console.log(userPayload);
-                const user = (await db.userStore.addUser(userPayload));
-                return h.response({ success: true }).code(201);
+                // const newUser = request.payload;
+                const newUser = request.payload;
+                // const newUser = {
+                //   firstName: userPayload.firstName,
+                //   lastName: userPayload.lastName,
+                //   email: userPayload.email,
+                //   password: userPayload.password,
+                //   admin: userPayload.admin,
+                // };
+                const user = (await db.userStore.addUser(newUser));
+                if (user !== null) {
+                    return h.response(user).code(201);
+                }
             }
             catch (err) {
-                return Boom.serverUnavailable("Database Error");
+                return Boom.badImplementation("error creating new user");
             }
         },
     },

@@ -22,7 +22,6 @@ export const spotApi = {
         },
         handler: async function (request, h) {
             const spotPayload = request.payload;
-            console.log("request auth credentials _id: " + request.auth.credentials._id);
             const newSpot = {
                 name: spotPayload.name,
                 category: spotPayload.category,
@@ -36,7 +35,7 @@ export const spotApi = {
             if (spot !== null) {
                 return h.response(spot).code(200);
             }
-            return Boom.badImplementation("error creating candidate");
+            return Boom.badImplementation("error creating spot");
         },
     },
     deleteOne: {

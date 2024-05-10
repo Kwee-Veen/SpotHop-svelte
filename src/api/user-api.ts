@@ -40,13 +40,13 @@ export const userApi = {
     auth: false,
     handler: async function (request: Request, h: ResponseToolkit) {
       try {
-        console.log("HERE");
-        const userPayload = request.payload as User;
-        console.log(userPayload);
-        const user = (await db.userStore.addUser(userPayload)) as User;
-        return h.response({ success: true }).code(201);
+        const newUser = request.payload as User;
+        const user = (await db.userStore.addUser(newUser)) as User;
+        if (user !== null) {
+          return h.response(user).code(201);
+        }
       } catch (err) {
-        return Boom.serverUnavailable("Database Error");
+        return Boom.badImplementation("error creating new user");
       }
     },
   },

@@ -94,7 +94,7 @@ export const spotMongoStore = {
                     r = await this.getSpotsByCategory(category);
                     results[category] = r.length;
                 }
-                r = await this.getUserSpots(user._id);
+                if (user._id) r = await this.getUserSpots(user._id);
                 results.User = r.length;
                 r = await this.getAllSpots();
                 results.Global = r.length;

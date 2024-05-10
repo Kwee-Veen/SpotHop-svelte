@@ -24,7 +24,6 @@ export const spotApi = {
         },
         handler: async function (request: Request, h: ResponseToolkit) {
           const spotPayload = request.payload as Spot;
-          console.log("request auth credentials _id: " + request.auth.credentials._id);
           const newSpot = {
             name: spotPayload.name,
             category: spotPayload.category,
@@ -33,13 +32,12 @@ export const spotApi = {
             longitude: spotPayload.longitude,
             userid:  request.auth.credentials._id,
           };
-
           const spot = (await db.spotStore.addSpot(newSpot)) as Spot;
           console.log(spot);
           if (spot !== null) {
             return h.response(spot).code(200);
           }
-          return Boom.badImplementation("error creating candidate");
+          return Boom.badImplementation("error creating spot");
         },
       },
 

@@ -3,7 +3,7 @@ export type User = {
     lastName: string;
     email: string;
     password: string;
-    _id: string;
+    _id?: string;
     admin: boolean;
   };
 
