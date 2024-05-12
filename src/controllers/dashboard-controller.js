@@ -4,6 +4,7 @@ export const dashboardController = {
     index: {
         handler: async function (request, h) {
             const loggedInUser = request.auth.credentials;
+            console.log("logged in user _id: " + loggedInUser._id);
             const spots = await db.spotStore.getUserSpots(loggedInUser._id);
             console.log(spots);
             const analytics = await db.spotStore.getSpotAnalytics(loggedInUser);

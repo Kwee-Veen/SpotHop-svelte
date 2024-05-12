@@ -9,7 +9,6 @@ export const spotApi = {
             try {
                 const spots = await db.spotStore.getAllSpots();
                 return h.response(spots).code(200);
-                ;
             }
             catch (err) {
                 return Boom.serverUnavailable("Database Error");
@@ -83,6 +82,21 @@ export const spotApi = {
             try {
                 await db.spotStore.deleteAllSpots();
                 return h.response().code(204);
+            }
+            catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+    },
+    spotAnalytics: {
+        auth: {
+            strategy: "jwt",
+        },
+        async handler(request, h) {
+            try {
+                const loggedInUser = request.auth.credentials;
+                const analytics = await db.spotStore.getSpotAnalytics(loggedInUser);
+                return h.response(analytics).code(200);
             }
             catch (err) {
                 return Boom.serverUnavailable("Database Error");

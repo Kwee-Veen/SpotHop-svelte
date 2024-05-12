@@ -84,4 +84,31 @@ export const userApi = {
       }
     },
   },
+
+  getUserSpotCount: {
+    auth: {
+      strategy: "jwt",
+    },
+    async handler(request: Request, h: ResponseToolkit) {
+      try {
+
+        const users = await db.userStore.getAllUsers();
+        let userIds: any[] = [];
+        users.forEach((user: User) => {
+          if (user._id) userIds.push(user._id);
+        });
+
+        let userSpotCount: any[] = [];
+        for (const element of userIds) {
+            let r = await db.spotStore.getUserSpots(element);
+            userSpotCount.push(r.length);
+        }
+
+        return h.response(userSpotCount).code(201);
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+  }
+  
 };

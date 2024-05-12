@@ -35,24 +35,9 @@ export const userApi = {
     },
     create: {
         auth: false,
-        // validate: {
-        //   payload: UserSpec,
-        //   options: { abortEarly: false },
-        //   failAction: function (request: Request, h: ResponseToolkit, error: any) {
-        //     return h.view("signup-view", { title: "Sign up error", errors: error.details }).takeover().code(400);
-        //   },
-        // },
         handler: async function (request, h) {
             try {
-                // const newUser = request.payload;
                 const newUser = request.payload;
-                // const newUser = {
-                //   firstName: userPayload.firstName,
-                //   lastName: userPayload.lastName,
-                //   email: userPayload.email,
-                //   password: userPayload.password,
-                //   admin: userPayload.admin,
-                // };
                 const user = (await db.userStore.addUser(newUser));
                 if (user !== null) {
                     return h.response(user).code(201);
@@ -99,4 +84,28 @@ export const userApi = {
             }
         },
     },
+    getUserSpotCount: {
+        auth: {
+            strategy: "jwt",
+        },
+        async handler(request, h) {
+            try {
+                const users = await db.userStore.getAllUsers();
+                let userIds = [];
+                users.forEach((user) => {
+                    if (user._id)
+                        userIds.push(user._id);
+                });
+                let userSpotCount = [];
+                for (const element of userIds) {
+                    let r = await db.spotStore.getUserSpots(element);
+                    userSpotCount.push(r.length);
+                }
+                return h.response(userSpotCount).code(201);
+            }
+            catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+    }
 };
